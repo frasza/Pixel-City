@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A5815D6207141A200AB7C82 /* DroppablePin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5815D5207141A200AB7C82 /* DroppablePin.swift */; };
 		3AB78B64206FED7D0036E0F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB78B63206FED7D0036E0F7 /* AppDelegate.swift */; };
 		3AB78B66206FED7D0036E0F7 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB78B65206FED7D0036E0F7 /* MapViewController.swift */; };
 		3AB78B69206FED7D0036E0F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AB78B67206FED7D0036E0F7 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A5815D5207141A200AB7C82 /* DroppablePin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroppablePin.swift; sourceTree = "<group>"; };
 		3AB78B60206FED7D0036E0F7 /* Pixel City.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel City.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AB78B63206FED7D0036E0F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AB78B65206FED7D0036E0F7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 		3AB78B76206FEDB20036E0F7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3A5815D5207141A200AB7C82 /* DroppablePin.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AB78B66206FED7D0036E0F7 /* MapViewController.swift in Sources */,
+				3A5815D6207141A200AB7C82 /* DroppablePin.swift in Sources */,
 				3AB78B64206FED7D0036E0F7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,7 +403,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8A77Y5NUG2;
 				INFOPLIST_FILE = "Pixel City/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zanfras.Pixel-City";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -415,7 +422,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8A77Y5NUG2;
 				INFOPLIST_FILE = "Pixel City/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zanfras.Pixel-City";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
