@@ -35,6 +35,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var collectionView: UICollectionView?
     
     var imageUrlArray = [String]()
+    var imageArray = [UIImage]()
     
     //MARK: - Methods
     /***************************************************************/
@@ -77,6 +78,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func animateViewDown() {
+        cancelAllSessions()
+        
         pullUpViewHeightConstraint.constant = 0
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -100,8 +103,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func addProgressLabel() {
         progressLabel = UILabel()
-        progressLabel?.frame = CGRect(x: (screenSize.width / 2) - 100, y: 175, width: 200, height: 40)
-        progressLabel?.font = UIFont(name: "Avenir Next", size: 18)
+        progressLabel?.frame = CGRect(x: (screenSize.width / 2) - 125, y: 175, width: 250, height: 40)
+        progressLabel?.font = UIFont(name: "Avenir Next", size: 16)
         progressLabel?.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         progressLabel?.textAlignment = .center
         collectionView?.addSubview(progressLabel!)
@@ -114,7 +117,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
-    func retrieveUrls(forAnnotation annotation: DroppablePin, handler: @escaping (_ status: Bool) -> ()) {
+    func retrieveUrls(forAnnotation annotation: DroppablePin, handler: @escaping (_ complete: Bool) -> ()) {
         imageUrlArray = []
         
         Alamofire.request(flickrURL(forApiKey: API_KEY, withAnnotation: annotation, andNumberOfPhotos: 40)).responseJSON { (response) in
@@ -128,6 +131,29 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             
             handler(true)
+        }
+    }
+    
+    func retrieveImages(handler: @escaping (_ complete: Bool) -> ()) {
+        imageArray = []
+        
+        for url in imageUrlArray {
+            Alamofire.request(url).responseImage { (response) in
+                guard let image = response.result.value else { return }
+                self.imageArray.append(image)
+                self.progressLabel?.text = "\(self.imageArray.count)/40 Images Downloaded"
+                
+                if self.imageArray.count == self.imageUrlArray.count {
+                    handler(true)
+                }
+            }
+        }
+    }
+    
+    func cancelAllSessions() {
+        Alamofire.SessionManager.default.session.getTasksWithCompletionHandler { (sessionDataTask, uploadData, downloadData) in
+            sessionDataTask.forEach({ $0.cancel() })
+            downloadData.forEach({ $0.cancel() })
         }
     }
     
@@ -156,6 +182,8 @@ extension MapViewController: MKMapViewDelegate {
         removeSpinner()
         removeProgressLabel()
         
+        cancelAllSessions()
+        
         animateViewUp()
         addSwipe()
         addSpinner()
@@ -173,7 +201,15 @@ extension MapViewController: MKMapViewDelegate {
         mapView.setRegion(coordinateRegion, animated: true)
         
         retrieveUrls(forAnnotation: annotation) { (complete) in
-            print(self.imageUrlArray)
+            if complete {
+                self.retrieveImages(handler: { (complete) in
+                    if complete {
+                        self.removeSpinner()
+                        self.removeProgressLabel()
+                        // reload collectionview
+                    }
+                })
+            }
         }
     }
     
